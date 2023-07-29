@@ -4,8 +4,8 @@ import morgan from 'morgan'
 import todoRoutes from './routes/todo.routes.js'
 import authRoutes from './routes/auth.routes.js'
 
-import dotenv from 'dotenv'
-dotenv.config()
+// import dotenv from 'dotenv'
+// dotenv.config()
 
 const server = express()
 server.use(cors({
