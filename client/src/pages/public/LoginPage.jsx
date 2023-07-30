@@ -1,12 +1,13 @@
-import { useAuth } from '../context/authContext'
+import { useAuth } from '../../context/authContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Card, Message, Button, Input, Label } from '../components/ui'
-import { loginSchema } from '../schemas/auth'
+import { Card, Message, Button, Input, Label } from '../../components/ui'
+import { loginSchema } from '../../schemas/auth'
+import { PrivateRoutes, PubblicRoutes } from '../../models/routes'
 
-export function LoginPage() {
+function LoginPage() {
   const {
     register,
     handleSubmit,
@@ -21,13 +22,14 @@ export function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/todo')
+      navigate(`/${PrivateRoutes.TODO}`)
     }
   }, [isAuthenticated])
 
   return (
-    <div className="h-[calc(100vh-100px)] md:px-72">
+    
       <Card>
+        <div className='m-12 p-6 border-2 border-indigo-500 rounded-lg'>
         {loginErrors.map((error, i) => (
           <Message message={error} key={i} />
         ))}
@@ -39,7 +41,7 @@ export function LoginPage() {
             label="Write your email"
             type="email"
             name="email"
-            placeholder="youremail@domain.tld"
+            placeholder="youremail@gmail.com"
             {...register('email', { required: true })}
           />
           <p className="text-red-500">{errors.email?.message}</p>
@@ -57,9 +59,17 @@ export function LoginPage() {
         </form>
 
         <p className="flex gap-x-2 justify-between">
-          Don't have an account? <Link to="/register" className="text-sky-500">Sign up</Link>
+          Don't have an account? 
+          <Link 
+            navigate
+            to={`/${PubblicRoutes.REGISTER}`} 
+            className="text-sky-500">
+            Sign up
+          </Link>
         </p>
+        </div>
       </Card>
-    </div>
   )
 }
+
+export default LoginPage

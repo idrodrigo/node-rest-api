@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { ImFileEmpty } from 'react-icons/im'
-import { useTodos } from '../context/todoContext'
-import { TodoCard } from '../components/todo/TodoCard'
+import { useTodos } from '../../context/todoContext'
+import { TodoCard } from '../../components/todo/TodoCard'
 
-export function TasksPage() {
+function TasksPage() {
   const { todos, getUserTodos, setTodos } = useTodos()
 
   useEffect(() => {
@@ -12,14 +12,14 @@ export function TasksPage() {
   }, [])
 
   return (
-    <div className="md:p-8" >
+    <div className="" >
       {todos.length > 0
         ? <div className="grid md:grid-cols-1 lg:grid-cols-1 gap-4">
           {todos.map((todo) => (
             <TodoCard todo={todo} key={todo._id} />
           ))}
         </div>
-        : <div className="flex justify-center items-center p-10">
+        : <div className="flex justify-center items-center">
           <div>
             <ImFileEmpty className="text-6xl text-gray-400 m-auto my-2" />
             <h1 className="font-bold text-xl">
@@ -29,5 +29,6 @@ export function TasksPage() {
         </div>}
     </div >
   )
-
 }
+
+export default TasksPage

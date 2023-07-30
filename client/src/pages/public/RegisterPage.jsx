@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
-import { useAuth } from '../context/authContext'
+import { useAuth } from '../../context/authContext'
 import { Link, useNavigate } from 'react-router-dom'
-import { Card, Message, Button, Input, Label } from '../components/ui'
+import { Card, Message, Button, Input, Label } from '../../components/ui'
 import { useForm } from 'react-hook-form'
-import { registerSchema } from '../schemas/auth'
+import { registerSchema } from '../../schemas/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { PrivateRoutes, PubblicRoutes } from '../../models/routes'
 
 function Register() {
   const { signup, errors: registerErrors, isAuthenticated } = useAuth()
@@ -22,12 +23,12 @@ function Register() {
   }
 
   useEffect(() => {
-    if (isAuthenticated) navigate('/todo')
+    if (isAuthenticated) navigate(`/${PrivateRoutes.PRIVATE}`)
   }, [isAuthenticated])
 
   return (
-    <div className="h-[calc(100vh-100px)] md:px-72">
       <Card>
+      <div className='m-12 p-6 border-2 border-indigo-500 rounded-lg'>
         {registerErrors.map((error, i) => (
           <Message message={error} key={i} />
         ))}
@@ -69,12 +70,13 @@ function Register() {
         </form>
         <p className='flex justify-between'>
           <span>Already Have an Account?</span>
-          <Link className="text-sky-500" to="/login">
+          <Link className="text-sky-500" to={`/${PubblicRoutes.LOGIN}`}>
             Login
           </Link>
         </p>
+        </div>
       </Card>
-    </div>
+
   )
 }
 

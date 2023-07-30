@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { PubblicRoutes } from '../../models/routes'
 
 function HomePage() {
   return (
@@ -16,7 +17,7 @@ function HomePage() {
 
         <Link
           className="bg-green-500 text-white px-4 py-2 rounded-md mt-4 inline-block"
-          to="/register"
+          to={PubblicRoutes.REGISTER}
         >
           Get Started
         </Link>

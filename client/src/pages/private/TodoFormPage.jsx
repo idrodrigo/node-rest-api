@@ -2,15 +2,17 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import { Button, Card, Input, Label } from '../components/ui'
+import { Button, Card, Input, Label } from '../../components/ui'
 import { useForm } from 'react-hook-form'
-import { useTodos } from '../context/todoContext'
+import { useTodos } from '../../context/todoContext'
+import { PrivateRoutes } from '../../models/routes'
 dayjs.extend(utc)
 
-export function TaskFormPage() {
+
+function TaskFormPage() {
   const { createTodo, getTodo, updateTodo } = useTodos()
   const navigate = useNavigate()
-  const params = useParams()
+  const {todoId} = useParams()
   const {
     register,
     setValue,
@@ -40,14 +42,19 @@ export function TaskFormPage() {
     } catch (error) {
       console.log(error)
     } finally {
-      navigate('/todo')
+      navigate(PrivateRoutes.TODO)
     }
   }
 
   useEffect(() => {
+    console.log('params.id', todoId);
     async function loadTodo() {
-      if (params.id) {
-        const todo = await getTodo(params.id)
+      if (todoId) {
+        const todo = await getTodo(todoId)
+        if(!todo){
+          alert('Todo not found')
+          return navigate('/private/todo')
+        }
         setValue('title', todo.title)
         setValue('completed', todo.completed)
         setValue(
@@ -81,3 +88,5 @@ export function TaskFormPage() {
     </Card>
   )
 }
+
+export default TaskFormPage

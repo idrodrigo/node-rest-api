@@ -1,5 +1,6 @@
 export function Card({ children }) {
-  return <div
+  return <section
     className="bg-zinc-800  p-6 rounded-lg">
-    {children}</div>
+    {children}
+    </section>
 }

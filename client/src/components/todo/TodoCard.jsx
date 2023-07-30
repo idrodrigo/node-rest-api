@@ -3,14 +3,12 @@ import { useTodos } from '../../context/todoContext'
 import { Button, ButtonLink, Card } from '../ui'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import { Link } from 'react-router-dom'
+import { PrivateRoutes } from '../../models/routes'
 dayjs.extend(utc)
 
 export function TodoCard({ todo }) {
   const { deleteTodo, updateTodo } = useTodos()
   const [isCompleted, setIsCompleted] = useState(todo.completed)
-
-
 
   async function handleCompleted(todo) {
     try {
@@ -54,7 +52,10 @@ export function TodoCard({ todo }) {
             })}
         </p>
         <div className="flex gap-x-2 items-center justify-end">
-          <ButtonLink to={`/todo/${todo._id}`}>Edit</ButtonLink>
+          <ButtonLink 
+            to={PrivateRoutes.EDITTODO.replace(':todoId', todo._id)}>
+              Edit
+          </ButtonLink>
         </div>
       </section>
     </Card >

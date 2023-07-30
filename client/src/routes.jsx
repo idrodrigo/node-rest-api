@@ -1,35 +1,55 @@
-import HomePage from './pages/HomePage'
-import RegisterPage from './pages/RegisterPage'
-import { TaskFormPage } from './pages/TaskFormPage'
-import { LoginPage } from './pages/LoginPage'
-import { TasksPage } from './pages/TasksPage'
-
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet,Route, Routes } from "react-router-dom";
 import { useAuth } from "./context/authContext";
-import { Route, Routes } from 'react-router-dom'
 
+import { PrivateRoutes, PubblicRoutes } from './models/routes'
+import LoginPage from "./pages/public/LoginPage";
+import RegisterPage  from "./pages/public/RegisterPage";
+import HomePage  from "./pages/public/HomePage";
+import TasksPage  from "./pages/private/TodoPage";
+import TaskFormPage from "./pages/private/TodoFormPage";
+import RoutesWithNotFound  from "./utilities/RoutesWithNotFound";
 
-export function TodoRoutes() {
+export function TodoRoutes2() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route element={<ProtecRoutes />}>
-        <Route path="/todo" element={<TasksPage />} />
-        <Route path="/todo/new" element={<TaskFormPage />} />
-        <Route path="/todo/:id" element={<TaskFormPage />} />
-        <Route path="/profile" element={<h1>Profile</h1>} />
+    <RoutesWithNotFound>
+      <Route path='/' element={<HomePage />} />
+      <Route path={PubblicRoutes.LOGIN} element={<LoginPage />} />
+      <Route path={PubblicRoutes.REGISTER} element={<RegisterPage />} />
+      <Route element={<AuthGuard  privateValidation={true} />} >
+        <Route path={`${PrivateRoutes.PRIVATE}/*`} element={<Private />} />
       </Route>
-    </Routes>
+    </RoutesWithNotFound>
   )
 }
 
-function ProtecRoutes() {
-  const { isAuthenticated, loading } = useAuth();
-  // console.log('isAuthenticated', isAuthenticated, 'loading', loading)
+function TodoRoutes() {
+  return (
+    <RoutesWithNotFound>
+      <Route path='/' element={<TasksPage />} />
+      <Route path={PrivateRoutes.NEWTODO} element={<TaskFormPage />} />
+      <Route path={PrivateRoutes.EDITTODO} element={<TaskFormPage />} />
+    </RoutesWithNotFound>  
+  )
+}
 
+function Private(){
+  return(
+    <RoutesWithNotFound>
+      <Route path="/" element={<Navigate to={PrivateRoutes.TODO} />} />
+      <Route path={`${PrivateRoutes.TODO}/*`} element={<TodoRoutes />} />
+      <Route path={PrivateRoutes.PROFILE} element={<h1>Profile</h1>} />
+    </RoutesWithNotFound>
+  )
+}
+
+const PrivateValidationFragment = <Outlet />;
+const PublicValidationFragment = <Navigate replace to={PrivateRoutes.PRIVATE} />;
+
+function AuthGuard({ privateValidation }) {
+  const { isAuthenticated, loading, user } = useAuth();
+  console.log('isAuthenticated', isAuthenticated, 'loading', loading)
   if (loading) return <h1>Loading...</h1>;
-  if (!isAuthenticated && !loading) return <Navigate to="/login" replace />;
-  return <Outlet />;
+  return isAuthenticated && !loading
+  ? PrivateValidationFragment
+  : <Navigate replace to={PubblicRoutes.LOGIN} />
 };

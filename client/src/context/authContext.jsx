@@ -27,42 +27,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [errors])
 
-  const signup = async (user) => {
-    try {
-      const res = await registerReq(user)
-      if (res.status === 200) {
-        setUser(res.data)
-        setIsAuthenticated(true)
-      }
-    } catch (error) {
-      console.log(error.response.data)
-      setErrors(error.response.data.message)
-    }
-  }
-
-  const signin = async (user) => {
-    try {
-      const res = await loginReq(user)
-      setUser(res.data)
-      setIsAuthenticated(true)
-    } catch (error) {
-      console.log(error)
-      setErrors(error.response.data.message);
-    }
-  }
-
-  const logout = async () => {
-    try {
-      await logoutReq()
-      Cookies.remove('token')
-      setUser(null)
-      setIsAuthenticated(false)
-    } catch (error) {
-      console.log(error)
-    }
-
-  }
-
   useEffect(() => {
     const checkLogin = async () => {
       const cookies = Cookies.get()
@@ -86,6 +50,40 @@ export const AuthProvider = ({ children }) => {
     }
     checkLogin()
   }, [])
+
+  const signup = async (user) => {
+    try {
+      const res = await registerReq(user)
+      if (res.status === 200) {
+        setUser(res.data)
+        setIsAuthenticated(true)
+      }
+    } catch (error) {
+      console.log(error.response.data)
+      setErrors(error.response.data.message)
+    }
+  }
+  const signin = async (user) => {
+    try {
+      const res = await loginReq(user)
+      setUser(res.data)
+      setIsAuthenticated(true)
+    } catch (error) {
+      console.log(error)
+      setErrors(error.response.data.message);
+    }
+  }
+  const logout = async () => {
+    try {
+      await logoutReq()
+      Cookies.remove('token')
+      setUser(null)
+      setIsAuthenticated(false)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   return (
     <AuthContext.Provider
