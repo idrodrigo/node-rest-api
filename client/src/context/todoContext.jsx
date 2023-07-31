@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from 'react'
 import {
   createTodoReq,
   deleteTodoReq,
+  getRecentTodosReq,
   getTodoReq,
   getUserTodosReq,
   updateTodoReq
@@ -17,6 +18,7 @@ export const useTodos = () => {
 
 export function TodoProvider({ children }) {
   const [todos, setTodos] = useState([])
+  const [recentTodos, setRecentTodos] = useState([])
 
   const getUserTodos = async () => {
     try {
@@ -38,7 +40,8 @@ export function TodoProvider({ children }) {
   const createTodo = async (task) => {
     try {
       const res = await createTodoReq(task)
-      console.log(res.data)
+      console.log(res.status);
+      if (res.status === 201) setTodos([...todos, res.data])
     } catch (error) {
       console.log(error)
     }
@@ -53,15 +56,28 @@ export function TodoProvider({ children }) {
   }
   const updateTodo = async (id, todo) => {
     try {
-      await updateTodoReq(id, todo)
+      const res = await updateTodoReq(id, todo)
+      if (res.status === 200)
+        setTodos(todos.map((todo) => (todo._id === id ? res.data : todo)))
+      // getUserTodos()
     } catch (error) {
       console.error(error)
+    }
+  }
+  const getRecentTodos = async () => {
+    try {
+      const res = await getRecentTodosReq()
+      setRecentTodos(res.data)
+    } catch (error) {
+      console.log(error)
     }
   }
 
   return (
     <TaskContext.Provider
       value={{
+        recentTodos,
+        getRecentTodos,
         todos,
         setTodos,
         getUserTodos,

@@ -18,7 +18,7 @@ export const createTodo = async (req, res) => {
       user: req.user.id
     })
     await newTodo.save()
-    res.json(newTodo)
+    res.status(201).json(newTodo)
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
@@ -50,6 +50,24 @@ export const getTodo = async (req, res) => {
     const todo = await Todo.findById(req.params.id)
     if (!todo) return res.status(404).json({ message: 'Todo not found' })
     return res.json(todo)
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+
+export const getAllTodos = async (req, res) => {
+  try {
+    const todos = await Todo.find().populate('user')
+    const todoTitles = todos
+      .map(todo => ({
+        title: todo.title,
+        createdAt: todo.createdAt,
+        id: todo._id,
+        user: todo.user.email.split('@')[0] + '@****'
+      }))
+      .sort((a, b) => b.createdAt - a.createdAt)
+      .slice(0, 10)
+    res.status(200).json(todoTitles)
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }

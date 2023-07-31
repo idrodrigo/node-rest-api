@@ -14,3 +14,7 @@ export const deleteTodoReq = async (id) =>
 
 export const getTodoReq = async (id) => 
   axios.get(`/todo/${id}`)
+
+export const getRecentTodosReq = async () =>
+  axios.get('/all')
+

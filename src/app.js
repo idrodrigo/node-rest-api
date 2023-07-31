@@ -4,12 +4,14 @@ import morgan from 'morgan'
 import todoRoutes from './routes/todo.routes.js'
 import authRoutes from './routes/auth.routes.js'
 
-// import dotenv from 'dotenv'
-// dotenv.config()
+if (process.env.NODE_ENV !== 'production') {
+  const dotenv = await import('dotenv')
+  dotenv.config()
+}
 
 const server = express()
 server.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.DEPLOY_URL,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }))
@@ -29,8 +31,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve('client', 'dist', 'index.html'))
   })
 } else {
-  const dotenv = await import('dotenv')
-  dotenv.config()
   server.get('/', (_, res) => {
     res.send('server is up and running')
   })

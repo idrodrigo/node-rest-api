@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Card, Message, Button, Input, Label } from '../../components/ui'
 import { loginSchema } from '../../schemas/auth'
-import { PrivateRoutes, PubblicRoutes } from '../../models/routes'
+import { PrivateRoutes, PubblicRoutes } from '../../routes/paths'
 
 function LoginPage() {
   const {
@@ -27,9 +27,9 @@ function LoginPage() {
   }, [isAuthenticated])
 
   return (
-    
-      <Card>
-        <div className='m-12 p-6 border-2 border-indigo-500 rounded-lg'>
+
+    <Card>
+      <div className='md:mx-24 m-2 p-6 border border-gray-500 rounded-lg hover:bg-zinc-900/20'>
         {loginErrors.map((error, i) => (
           <Message message={error} key={i} />
         ))}
@@ -59,16 +59,15 @@ function LoginPage() {
         </form>
 
         <p className="flex gap-x-2 justify-between">
-          Don't have an account? 
-          <Link 
-            navigate
-            to={`/${PubblicRoutes.REGISTER}`} 
+          Don't have an account?
+          <Link
+            to={`/${PubblicRoutes.REGISTER}`}
             className="text-sky-500">
             Sign up
           </Link>
         </p>
-        </div>
-      </Card>
+      </div>
+    </Card>
   )
 }
 

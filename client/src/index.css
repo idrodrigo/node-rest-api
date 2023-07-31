@@ -6,3 +6,8 @@ body {
   background: #202020;
   color: white;
 }
+
+input:checked~.dot {
+  transform: translateX(125%);
+  background-color: #48bb78;
+}

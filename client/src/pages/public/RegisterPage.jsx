@@ -5,7 +5,7 @@ import { Card, Message, Button, Input, Label } from '../../components/ui'
 import { useForm } from 'react-hook-form'
 import { registerSchema } from '../../schemas/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PrivateRoutes, PubblicRoutes } from '../../models/routes'
+import { PrivateRoutes, PubblicRoutes } from '../../routes/paths'
 
 function Register() {
   const { signup, errors: registerErrors, isAuthenticated } = useAuth()
@@ -23,12 +23,12 @@ function Register() {
   }
 
   useEffect(() => {
-    if (isAuthenticated) navigate(`/${PrivateRoutes.PRIVATE}`)
+    if (isAuthenticated) navigate(`/${PrivateRoutes.TODO}`)
   }, [isAuthenticated])
 
   return (
-      <Card>
-      <div className='m-12 p-6 border-2 border-indigo-500 rounded-lg'>
+    <Card>
+      <div className='md:mx-12 p-6 border border-gray-500 hover:bg-zinc-900/20 rounded-lg'>
         {registerErrors.map((error, i) => (
           <Message message={error} key={i} />
         ))}
@@ -74,8 +74,8 @@ function Register() {
             Login
           </Link>
         </p>
-        </div>
-      </Card>
+      </div>
+    </Card>
 
   )
 }
