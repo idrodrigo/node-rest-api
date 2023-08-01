@@ -1,55 +1,54 @@
 import { Route, Routes } from "react-router-dom";
+import { lazy } from "react";
 
-import Profile from "../pages/private/Profile";
-import TodoFormPage from "../pages/private/TodoFormPage";
-import TodoPage from "../pages/private/TodoPage";
+const LazyProfile = lazy(() => import("../pages/private/Profile"))
+const LazyTodoFormPage = lazy(() => import("../pages/private/TodoFormPage"))
+const LazyTodoPage = lazy(() => import("../pages/private/TodoPage"))
 
-import HomePage from "../pages/public/HomePage";
-import LoginPage from "../pages/public/LoginPage";
-import RegisterPage from "../pages/public/RegisterPage";
-import Page404 from "../pages/public/Page404";
+const LazyHomePage = lazy(() => import("../pages/public/HomePage"))
+const LazyLoginPage = lazy(() => import("../pages/public/LoginPage"))
+const LazyRegisterPage = lazy(() => import("../pages/public/RegisterPage"))
+const LazyPage404 = lazy(() => import("../pages/public/Page404"))
 
 import { PrivateRoutes, PubblicRoutes } from "../routes/paths.js";
 import AuthGuard from "./guards/AuthGuard";
-
-
 
 export function TodoRoutes() {
   return (
     <Routes>
       <Route
         path='/'
-        element={<HomePage />}
+        element={<LazyHomePage />}
       />
       <Route
         path={PubblicRoutes.LOGIN}
-        element={<LoginPage />}
+        element={<LazyLoginPage />}
       />
       <Route
         path={PubblicRoutes.REGISTER}
-        element={<RegisterPage />}
+        element={<LazyRegisterPage />}
       />
       <Route element={<AuthGuard />} >
         <Route
           path={PrivateRoutes.TODO}
-          element={<TodoPage />}
+          element={<LazyTodoPage />}
         >
           <Route
             path={PrivateRoutes.NEWTODO}
-            element={<TodoFormPage />}
+            element={<LazyTodoFormPage />}
           />
           <Route
             path={PrivateRoutes.EDITTODO}
-            element={<TodoFormPage />}
+            element={<LazyTodoFormPage />}
           />
         </Route>
 
         <Route
           path={PrivateRoutes.PROFILE}
-          element={<Profile />}
+          element={<LazyProfile />}
         />
       </Route>
-      <Route path="*" element={<Page404 />} />
+      <Route path="*" element={<LazyPage404 />} />
     </Routes>
   )
 }

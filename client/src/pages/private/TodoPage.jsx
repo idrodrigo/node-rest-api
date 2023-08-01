@@ -11,8 +11,6 @@ function TodoPage() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [filteredTodos, setFilteredTodos] = useState([]);
 
-
-
   const handleToggleDate = () => {
     setIsDate(!isDate);
   };
@@ -30,15 +28,7 @@ function TodoPage() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await getUserTodos();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
+    getUserTodos();
     return () => setTodos([]);
   }, []);
 
