@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { lazy } from "react";
+import { Suspense, lazy } from "react";
 
 const LazyProfile = lazy(() => import("../pages/private/Profile"))
 const LazyTodoFormPage = lazy(() => import("../pages/private/TodoFormPage"))

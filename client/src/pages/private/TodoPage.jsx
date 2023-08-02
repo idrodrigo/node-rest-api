@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { ImFileEmpty } from 'react-icons/im'
 import { useTodos } from '../../context/todoContext'
 import { TodoCard } from '../../components/todo/TodoCard'
 import { Outlet } from 'react-router-dom'
+import Loader from '../../components/ui/Loader'
 
 function TodoPage() {
   const { todos, getUserTodos, setTodos, updateTodo } = useTodos();
@@ -130,7 +131,9 @@ function TodoPage() {
           </label>
         </div >
       </section >
-      <Outlet />
+      <Suspense fallback={<Loader />} >
+        <Outlet />
+      </Suspense >
       <div className="pb-6" >
         {filteredTodos.length > 0
           ? <div className="grid md:grid-cols-1 lg:grid-cols-1 gap-4">

@@ -1,0 +1,85 @@
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-100%, -50%);
+  width: 3em;
+  height: 3em;
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 1.5em);
+  transform: translateY(-50%);
+  border-radius: 1.5em;
+
+  animation-duration: 1.3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.loader:before {
+  background: #8cc84b;
+  animation-name: red-spin;
+}
+
+.loader:after {
+  background: #00D8FF;
+  animation-name: blue-spin;
+}
+
+@keyframes red-spin {
+  0% {
+    width: 3em;
+    height: 3em;
+  }
+
+  25% {
+    left: 100%;
+  }
+
+  50% {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  75% {
+    left: 0;
+  }
+
+  100% {
+    left: 0;
+    width: 3em;
+    height: 3em;
+  }
+}
+
+@keyframes blue-spin {
+  0% {
+    left: 100%;
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  25% {
+    left: 0;
+  }
+
+  50% {
+    width: 3em;
+    height: 3em;
+  }
+
+  75% {
+    left: 100%;
+  }
+
+  100% {
+    left: 100%;
+    width: 1.5em;
+    height: 1.5em;
+  }
+}

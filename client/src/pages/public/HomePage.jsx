@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { PubblicRoutes } from '../../routes/paths'
 import { Card } from '../../components/ui'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useTodos } from '../../context/todoContext'
+import Loader from '../../components/ui/Loader'
 
 function HomePage() {
   const { recentTodos, getRecentTodos } = useTodos([])
@@ -26,7 +27,7 @@ function HomePage() {
           </p>
 
           <Link
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md mt-4 inline-block"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md mt-4 inline-block shadow-md shadow-zinc-900"
             to={PubblicRoutes.REGISTER}
           >
             Get Started
@@ -35,31 +36,36 @@ function HomePage() {
       </Card>
       <Card>
         <h1 className="text-3xl font-bold text-center mb-4">Recent Posts</h1>
-        {[...recentTodos].map((all) => (
-          <div key={all.id} className='rounded-lg m-2 border border-gray-500'>
-            <section className="font-normal text-sm p-2 rounded-md hover:bg-zinc-900/20">
-              <h2 className=" font-medium text-xl">{all.title}</h2>
-              <section className='flex items-center justify-between'>
-                <p className='text-xs text-gray-400'>
-                  created at:{' '}
-                  <span className='text-indigo-500'>
-                    {all.createdAt &&
-                      new Date(all.createdAt).toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                  </span>
-                </p>
-                <p className="text-xs text-gray-400">
-                  by:{' '}
-                  <span className='text-indigo-500'>{all.user}</span>
-                </p>
-              </section>
-            </section >
-          </div>
-        ))}
+
+        {recentTodos.length === 0
+          ? <Loader />
+          : [...recentTodos].map((all) => (
+            <div key={all.id} className='rounded-xl m-4 md:mx-10 border border-gray-500 shadow-md shadow-zinc-900'>
+              <section className="font-normal text-sm p-2 rounded-md hover:bg-zinc-900/20">
+                <h2 className=" font-medium md:text-xl text-base ">{all.title}</h2>
+                <section className='flex  justify-between flex-col md:flex-row'>
+                  <p className='text-xs text-gray-400'>
+                    created at:{' '}
+                    <span className='text-indigo-500'>
+                      {all.createdAt &&
+                        new Date(all.createdAt).toLocaleDateString('en-US', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                    </span>
+                  </p>
+                  <p className="text-xs text-gray-400 text-end">
+                    by:{' '}
+                    <span className='text-indigo-500'>{all.user}</span>
+                  </p>
+                </section>
+              </section >
+            </div>
+          ))}
+
+
       </Card>
 
     </>

@@ -22,19 +22,9 @@ export function TodoCard({ todo }) {
     <>
       <section className="font-normal text-sm bg-zinc-800 p-6 rounded-lg hover:bg-zinc-800/50">
         <header className="flex justify-between items-center pb-1">
-          <button
-            className={`border border-white rounded-lg px-4 ${buttonColor} hover:opacity-80 transition-all`}
-            onClick={() => handleCompleted(todo)}>
-            {todo.completed ? (
-              <p className="">Completed</p>
-            ) : (
-              <p className="">Pending</p>
-            )
-            }
-          </button>
+          <h2 className="text-xl font-medium">{todo.title}</h2>
           <button onClick={() => deleteTodo(todo._id)}>❌</button>
         </header>
-        <h2 className="text-base font-medium">{todo.title}</h2>
         <section className='flex items-center justify-between'>
           <p className='text-xs text-gray-400'>
             {todo.date &&
@@ -45,13 +35,26 @@ export function TodoCard({ todo }) {
                 day: 'numeric'
               })}
           </p>
-          <div className="flex gap-x-2 items-center justify-end">
+        </section>
+        <div className='flex justify-between pt-2'>
+          <button
+            className={`rounded-lg px-2 text-xs ${buttonColor} hover:opacity-80 transition-all`}
+            onClick={() => handleCompleted(todo)}>
+            {todo.completed ? (
+              <p className="">Completed </p>
+            ) : (
+              <p className="">Pending</p>
+            )
+            }
+          </button>
+          <div className="flex gap-x-1 items-center justify-end">
             <ButtonLink
               to={PrivateRoutes.EDITTODO.replace(':todoId', todo._id)}>
               Edit
             </ButtonLink>
           </div>
-        </section>
+        </div>
+
       </section >
     </>
   )

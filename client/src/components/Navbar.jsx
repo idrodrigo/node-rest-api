@@ -5,17 +5,12 @@ import { PrivateRoutes, PubblicRoutes } from '../routes/paths'
 import ReactLogo from '../assets/react.svg';
 import nodeLogo from '../assets/node.svg';
 import { useState } from 'react';
+import { BsPersonCircle } from 'react-icons/bs';
 
-export function Navbar() {
+function Navbar() {
   const { isAuthenticated, logout, user } = useAuth()
   const [isSecure, setIsSecure] = useState(true)
-
-
   const navigate = useNavigate()
-
-  function handleChange() {
-    setIsSecure(!isSecure)
-  }
 
   return (
     <>
@@ -39,20 +34,15 @@ export function Navbar() {
                   </Link>
                 </li>
 
-                <div className='flex gap-4 justify-center pt-4 md:pt-0'>
+                <div className='flex gap-4 justify-center pt-4 md:pt-0 items-center'>
                   <li>
                     <ButtonLink to={`/${PrivateRoutes.TODO}/${PrivateRoutes.NEWTODO}`}>New</ButtonLink>
                   </li>
                   <li>
                     <button
-                      onClick={() => {
-                        if (confirm('Please confirm you want to logout.')) {
-                          logout()
-                          return navigate('/')
-                        }
-                      }}
-                      className='text-red-500'>
-                      Logout
+                      onClick={() => navigate(PrivateRoutes.PROFILE)}
+                      className=''>
+                      <BsPersonCircle className='inline-block align-middle' size={28} />
                     </button>
                   </li>
                 </div>
@@ -77,7 +67,9 @@ export function Navbar() {
         <div className='flex justify-end px-2 items-center align-middle mb-4 gap-6'>
           <label htmlFor="toggleB" className="flex items-center cursor-pointer">
             <div className="relative">
-              <input type="checkbox" id="toggleB" className="sr-only" onChange={() => setIsSecure(!isSecure)} checked={isSecure} />
+              <input type="checkbox" id="toggleB" className="sr-only"
+                onChange={() => setIsSecure(!isSecure)}
+                checked={isSecure} />
               <div className="block bg-zinc-800 w-12 h-6 rounded-full"></div>
               <div className="dot absolute left-[2px] top-[2px] bg-white w-5 h-5 rounded-full transition"></div>
             </div>
@@ -91,7 +83,7 @@ export function Navbar() {
           >
             {
               isSecure
-                ? user.email.split('@')[0] + "@****"
+                ? user.email.split('@')[0] + "@******"
                 : user.email
             }
           </Link>
@@ -102,3 +94,5 @@ export function Navbar() {
     </>
   )
 }
+
+export default Navbar

@@ -1,35 +1,27 @@
 import { useEffect } from "react"
-import { ButtonLink, Card } from "../../components/ui"
+import { Card, ButtonDanger } from "../../components/ui"
 import { useTodos } from "../../context/todoContext"
 import { useAuth } from "../../context/authContext"
+import { FiAlertTriangle } from "react-icons/fi"
+import { useNavigate } from "react-router-dom"
 
 function Profile() {
   const { todos, getUserTodos, setTodos } = useTodos()
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await getUserTodos();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
+    getUserTodos();
     return () => setTodos([]);
   }, []);
-  console.log(user);
-
-
 
   return (
     <>
       <Card>
         <h2 className="text-3xl font-bold text-indigo-500">Profile</h2>
-        <p className="text-end">
-          you are user since{' '}
-          <span className="text-indigo-500">
+        <p className="py-4">
+          you are user since:{' '}
+          <span className="text-indigo-500 md:inline-block block">
             {user.createdAt &&
               new Date(user.createdAt).toLocaleDateString('en-US', {
                 weekday: 'long',
@@ -39,6 +31,17 @@ function Profile() {
               })}
           </span>
         </p>
+        <div className="flex justify-end">
+          <ButtonDanger onClick={() => {
+            if (confirm('Please confirm you want to logout.')) {
+              logout()
+              return navigate('/')
+            }
+          }}>
+            Logout
+          </ButtonDanger>
+
+        </div>
       </Card>
 
       <Card>
@@ -46,7 +49,7 @@ function Profile() {
           (todos.length > 0) &&
           <>
             <h3 className="text-3xl font-bold text-indigo-500 mb-4">Count: </h3>
-            <section className='border-2 border-indigo-500 bg-zinc-800 rounded-lg  p-4'>
+            <section className='bg-zinc-800 p-2'>
               <p>
                 Total:{' '}
                 <span className="text-indigo-500">{todos.length}</span>
@@ -68,28 +71,32 @@ function Profile() {
       </Card>
       <Card>
         <h3 className="text-3xl font-bold text-red-500 mb-4">Danger</h3>
-        <section className='md:border-2 border-red-500 bg-zinc-800 rounded-lg mb-6 md:p-4 '>
-          <section className='bg-red-500 p-6 rounded-lg mb-2'>
-            <p>
-              ⚠️Unexpected bad things will happen if you don’t read this!
-            </p>
+        <section className='bg-zinc-800 rounded-lg mb-6'>
+          <section className='bg-red-500 p-4 rounded-lg mb-4'>
+            <div className="flex justify-center items-center gap-3">
+              <FiAlertTriangle />
+              <p>
+                Unexpected bad things will happen if you don’t read this!
+              </p>
+            </div>
+
           </section>
-          <section className='bg-zinc-900/50 p-6 rounded-lg '>
+          <section className='bg-zinc-900/50 p-4 rounded-lg '>
             <p>
               By deleting your account, you will lose your profile and all your
               todos. This action is irreversible.
             </p>
           </section>
         </section>
-        <div className="flex gap-6 md:justify-end justify-center items-center text-sm">
-          <button className=" transition-all bg-red-500 px-4 py-1 rounded-md hover:bg-red-600 ">
-            Delete all your todos
-          </button>
-          <button className=" transition-all bg-red-500 px-4 py-1 rounded-md hover:bg-red-600 ">
-            Delete count
-          </button>
+        <div className="flex gap-6 md:justify-end justify-center items-center">
+          <ButtonDanger>
+            Delete all
+          </ButtonDanger>
+          <ButtonDanger>
+            Delete acount
+          </ButtonDanger>
         </div>
-      </Card>
+      </Card >
     </>
   )
 }

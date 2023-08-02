@@ -10,7 +10,7 @@ dayjs.extend(utc)
 
 
 function TodoFormPage() {
-  const { createTodo, getTodo, updateTodo, getUserTodos } = useTodos()
+  const { createTodo, getTodo, updateTodo } = useTodos()
   const navigate = useNavigate()
   const { todoId } = useParams()
   const {
@@ -52,7 +52,7 @@ function TodoFormPage() {
         const todo = await getTodo(todoId)
         if (!todo) {
           // alert('Todo not found')
-          return navigate('/todo')
+          return navigate(`/${PrivateRoutes.TODO}`)
         }
         setValue('title', todo.title)
         setValue('completed', todo.completed)
