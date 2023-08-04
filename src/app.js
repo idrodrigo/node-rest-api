@@ -10,14 +10,14 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const server = express()
-server.disable('x-powered-by')
+server.use(express.json())
+server.use(morgan('dev'))
 server.use(cors({
   origin: process.env.DEPLOY_URL,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }))
-server.use(express.json())
-server.use(morgan('dev'))
+server.disable('x-powered-by')
 
 // routes --------------------------------------------------->
 server.use('/api', todoRoutes)

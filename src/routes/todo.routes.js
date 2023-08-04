@@ -5,6 +5,7 @@ import createTaskSchema from '../schemas/todo.schema.js'
 import {
   createTodo,
   deleteTodo,
+  deleteUserTodos,
   getAllTodos,
   getTodo,
   getUserTodos,
@@ -18,6 +19,7 @@ router.get('/todo/:id', auth, getTodo)
 router.post('/todo', auth, schemaValidator(createTaskSchema), createTodo)
 router.put('/todo/:id', auth, updateTodo)
 router.delete('/todo/:id', auth, deleteTodo)
+router.delete('/todo', auth, deleteUserTodos)
 router.get('/all', getAllTodos)
 
 export default router

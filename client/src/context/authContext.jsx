@@ -1,7 +1,8 @@
 import { useEffect, createContext, useContext, useState } from 'react'
 
-import { loginReq, logoutReq, registerReq, verifyTokenReq } from '../api/auth'
+import { deleteUserReq, loginReq, logoutReq, registerReq, verifyTokenReq } from '../api/auth'
 import Cookies from 'js-cookie'
+import { deleteUserTodosReq } from '../api/todo'
 
 const AuthContext = createContext()
 
@@ -82,12 +83,23 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.log(error)
     }
-
+  }
+  const deleteAccount = async () => {
+    try {
+      await deleteUserTodosReq()
+      await deleteUserReq()
+      Cookies.remove('token')
+      setUser(null)
+      setIsAuthenticated(false)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <AuthContext.Provider
       value={{
+        deleteAccount,
         user,
         signup,
         signin,

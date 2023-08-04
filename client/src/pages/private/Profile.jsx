@@ -6,8 +6,8 @@ import { FiAlertTriangle } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 
 function Profile() {
-  const { todos, getUserTodos, setTodos } = useTodos()
-  const { user, logout } = useAuth()
+  const { todos, getUserTodos, setTodos, deleteUserTodos } = useTodos()
+  const { user, logout, deleteAccount } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -89,10 +89,23 @@ function Profile() {
           </section>
         </section>
         <div className="flex gap-6 md:justify-end justify-center items-center">
-          <ButtonDanger>
+          <ButtonDanger onClick={
+            () => {
+              if (confirm('Please confirm you want to delete all todos.')) {
+                deleteUserTodos()
+              }
+            }
+          }>
             Delete all
           </ButtonDanger>
-          <ButtonDanger>
+          <ButtonDanger onClick={
+            () => {
+              if (confirm('Please confirm you want to delete your account.')) {
+                deleteAccount()
+                return navigate('/')
+              }
+            }
+          }>
             Delete acount
           </ButtonDanger>
         </div>

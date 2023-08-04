@@ -48,13 +48,12 @@ export const updateTodo = async (req, res) => {
 export const getTodo = async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id)
-    if (!todo) return res.status(404).json({ message: 'Todo not found' })
-    return res.json(todo)
+    if (todo) return res.json(todo)
+    res.status(404).json({ message: 'Todo not found' })
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
 }
-
 export const getAllTodos = async (req, res) => {
   try {
     const todos = await Todo.find().populate('user')
@@ -68,6 +67,15 @@ export const getAllTodos = async (req, res) => {
       .sort((a, b) => b.createdAt - a.createdAt)
       .slice(0, 10)
     res.status(200).json(todoTitles)
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+export const deleteUserTodos = async (req, res) => {
+  try {
+    const deletedTodos = await Todo.deleteMany({ user: req.user.id })
+    if (deletedTodos) return res.sendStatus(204)
+    res.status(404).json({ message: 'Todos not found' })
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }

@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from 'react'
 import {
   createTodoReq,
   deleteTodoReq,
+  deleteUserTodosReq,
   getRecentTodosReq,
   getTodoReq,
   getUserTodosReq,
@@ -72,6 +73,14 @@ export function TodoProvider({ children }) {
       console.log(error)
     }
   }
+  const deleteUserTodos = async () => {
+    try {
+      const res = await deleteUserTodosReq()
+      if (res.status === 204) setTodos([])
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <TaskContext.Provider
@@ -84,7 +93,8 @@ export function TodoProvider({ children }) {
         deleteTodo,
         createTodo,
         getTodo,
-        updateTodo
+        updateTodo,
+        deleteUserTodos
       }}
     >
       {children}

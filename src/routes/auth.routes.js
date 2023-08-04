@@ -2,6 +2,7 @@ import Router from 'express'
 import schemaValidator from '../middlewares/schemaValidador.middleware.js'
 import { authSchema, loginSchema } from '../schemas/auth.schema.js'
 import {
+  deleteUser,
   login,
   logout,
   register,
@@ -14,5 +15,6 @@ router.get('/verify', verifyToken)
 router.post('/register', schemaValidator(authSchema), register)
 router.post('/login', schemaValidator(loginSchema), login)
 router.post('/logout', logout)
+router.delete('/delete', deleteUser)
 
 export default router

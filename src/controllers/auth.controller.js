@@ -111,7 +111,7 @@ export const verifyToken = async (req, res) => {
     const userFound = await User.findById(user.id)
     if (!userFound) return res.sendStatus(401)
 
-    return res.json({
+    res.json({
       id: userFound._id,
       email: userFound.email,
       createdAt: userFound.createdAt
@@ -127,12 +127,32 @@ export const logout = (req, res) => {
       secure: true,
       expires: new Date(0)
     })
-    return res
+    res
       .status(200)
       .json({ message: 'Logout successful' })
   } else {
-    return res
+    res
       .status(404)
       .json({ message: 'No token found. Already logged out.' })
+  }
+}
+export const deleteUser = async (req, res) => {
+  try {
+    const token = req.headers.cookie?.split('=')[1]
+    if (!token) return res.send(false)
+
+    jwt.verify(token, process.env.SECRET_TOKEN, async (error, user) => {
+      if (error) return res.sendStatus(401)
+      console.log(user.id)
+      const userFound = await User.findById(user.id)
+      if (!userFound) return res.sendStatus(401)
+
+      const deletedUser = await User.findByIdAndDelete(user.id)
+      if (!deletedUser) return res.status(404).json({ message: 'User not found' })
+
+      res.sendStatus(204)
+    })
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
   }
 }
