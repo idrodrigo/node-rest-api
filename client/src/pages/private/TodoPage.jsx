@@ -3,7 +3,7 @@ import { ImFileEmpty } from 'react-icons/im'
 import { useTodos } from '../../context/todoContext'
 import { TodoCard } from '../../components/todo/TodoCard'
 import { Outlet } from 'react-router-dom'
-import Loader from '../../components/ui/Loader'
+import { Loader } from '../../components/ui'
 
 function TodoPage() {
   const { todos, getUserTodos, setTodos, updateTodo } = useTodos();

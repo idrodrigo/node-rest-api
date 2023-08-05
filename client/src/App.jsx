@@ -5,8 +5,9 @@ import { AuthProvider } from './context/authContext'
 import { TodoProvider } from './context/todoContext'
 import { TodoRoutes } from './routes/Routes'
 
-import Loader from './components/ui/Loader'
+
 import Navbar from './components/Navbar'
+import { Loader } from './components/ui'
 
 function App() {
   return (

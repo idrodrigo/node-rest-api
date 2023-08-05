@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { BsPersonCircle } from 'react-icons/bs';
 
 function Navbar() {
-  const { isAuthenticated, logout, user } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   const [isSecure, setIsSecure] = useState(true)
   const navigate = useNavigate()
 

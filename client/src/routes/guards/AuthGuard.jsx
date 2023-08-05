@@ -1,7 +1,8 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { PubblicRoutes } from "../paths";
-import Loader from "../../components/ui/Loader";
+import { Loader } from "../../components/ui";
+
 
 export function AuthGuard() {
   const { isAuthenticated, loading } = useAuth();

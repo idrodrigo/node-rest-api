@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import { PubblicRoutes } from '../../routes/paths'
-import { Card } from '../../components/ui'
-import { Suspense, useEffect } from 'react'
+import { Card, Loader } from '../../components/ui'
+import { useEffect } from 'react'
 import { useTodos } from '../../context/todoContext'
-import Loader from '../../components/ui/Loader'
+
 
 function HomePage() {
   const { recentTodos, getRecentTodos } = useTodos([])

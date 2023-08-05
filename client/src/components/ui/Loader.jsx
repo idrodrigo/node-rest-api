@@ -1,6 +1,6 @@
 import './Loader.css'
 
-function Loader() {
+export function Loader() {
   return (
     <div className='relative p-16'>
       <div
@@ -10,4 +10,3 @@ function Loader() {
   )
 }
 
-export default Loader
