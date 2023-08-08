@@ -6,7 +6,7 @@ import { TodoProvider } from './context/todoContext'
 import { TodoRoutes } from './routes/Routes'
 
 
-import Navbar from './components/Navbar'
+import Navbar from './components/navbar/Navbar'
 import { Loader } from './components/ui'
 
 function App() {
